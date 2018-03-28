@@ -16,6 +16,30 @@ process.GlobalTag.globaltag = '94X_mc2017_realistic_v12'
 #    )
 #)
 
+
+########## Remove lines below if you do not want to override the global tag ###################
+# https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions
+##########
+from CondCore.DBCommon.CondDBSetup_cfi import *
+process.ecalConditions = cms.ESSource("PoolDBESSource", CondDBSetup,
+      #connect = cms.string('frontier://FrontierProd/CMS_COND_ECAL'),
+      connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/DB.db'),
+      toGet = cms.VPSet(         # overide Global Tag use EcalTBWeights_EBEE_offline
+                  cms.PSet(
+                      record = cms.string('EcalSimPulseShapeRcd') ,
+                      tag = cms.string('EcalSimPulseShape_default_mc') ##### Put here the appropiate weight record
+                  ),
+                #  cms.PSet(
+                #      record = cms.string('EcalWeightXtalGroupsRcd') ,
+                #      tag = cms.string('EcalWeightXtalGroups_EBEE_offline')
+                #  )
+              )
+)
+process.es_prefer_EcalTBWeights = cms.ESPrefer("PoolDBESSource","ecalConditions")
+#############################################################################################
+
+
+
 process.source = cms.Source("EmptySource",
                              numberEventsInRun = cms.untracked.uint32(1), # do not change!
                              firstRun = cms.untracked.uint32(1)
