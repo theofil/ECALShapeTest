@@ -126,33 +126,23 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
    using namespace edm;
 
-
-
-
    // ------------------------
-   std::cout << "Testing the ECAL Shape" << std::endl;
 
    double ADC_clock = 25.0; // 25 ns
 
-   std::cout << __LINE__ << std::endl;
    EBShape EcalEBShape(iSetup);
-   std::cout << __LINE__ << std::endl;
    double risingTimeEB = EcalEBShape.timeToRise();
    double tzeroEB = risingTimeEB  - 5*ADC_clock;  // 5 samples before the peak
 
-   std::cout << __LINE__ << std::endl;
    EEShape EcalEEShape(iSetup);
    double risingTimeEE = EcalEEShape.timeToRise();
    double tzeroEE = risingTimeEE  - 5*ADC_clock;  
 
-   std::cout << __LINE__ << std::endl;
    //APDShape EcalAPDShape(74.5, 40.5, iSetup);
    APDShape EcalAPDShape(iSetup);
    double risingTimeAPD = EcalAPDShape.timeToRise();
    double tzeroAPD = risingTimeAPD - 5*ADC_clock;
 
-   //std::cout << "risingTimeEB = " << risingTimeEB << std::endl;
-   std::cout << __LINE__ << std::endl;
 
    for(int iSample=0; iSample<1000; iSample++)
    {
@@ -163,7 +153,6 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         EBShapeDeriv_ ->SetBinContent(iSample, EcalEBShape.derivative(tzeroEB  + float(iSample)) );
         EEShapeDeriv_ ->SetBinContent(iSample, EcalEEShape.derivative(tzeroEE  + float(iSample)) );
         APDShapeDeriv_->SetBinContent(iSample, EcalAPDShape.derivative(tzeroAPD + float(iSample)) );
-     
    }
 
 
