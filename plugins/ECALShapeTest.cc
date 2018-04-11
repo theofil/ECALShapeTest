@@ -76,6 +76,28 @@ class ECALShapeTest : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       TH1F *EEShapeDeriv_;
       TH1F *APDShapeDeriv_;
 
+      TTree *shapes_;
+      double timeToRise_EB_;
+      double timeToRise_EE_;
+      double timeToRise_APD_;
+
+      double timeOfThr_EB_;
+      double timeOfThr_EE_;
+      double timeOfThr_APD_;
+
+      double timeOfMax_EB_;
+      double timeOfMax_EE_;
+      double timeOfMax_APD_;
+
+      double threshold_EB_;
+      double threshold_EE_;
+      double threshold_APD_;
+    
+      double shape_EB_[10000]; // save first 500 ns without any time shift with 0.05 ns 
+      double shape_EE_[10000];
+      double shape_APD_[10000];
+      double time_[10000];
+     
 };
 
 //
@@ -104,6 +126,30 @@ ECALShapeTest::ECALShapeTest(const edm::ParameterSet& iConfig)
    EBShapeDeriv_  = fTFileService_->make<TH1F>("EBShapeDeriv","EB ShapeDeriv;time [ns];amplitude", nBins, tMin, tMax);
    EEShapeDeriv_  = fTFileService_->make<TH1F>("EEShapeDeriv","EE ShapeDeriv;time [ns];amplitude", nBins, tMin, tMax);
    APDShapeDeriv_ = fTFileService_->make<TH1F>("APDShapeDeriv","APD ShapeDeriv;time [ns];amplitude", nBins, tMin, tMax);
+
+   shapes_  = fTFileService_->make<TTree>("shapes","shapes");
+
+   shapes_  ->Branch("timeToRise_EB",  &timeToRise_EB_,  "timeToRise_EB/D");
+   shapes_  ->Branch("timeToRise_EE",  &timeToRise_EE_,  "timeToRise_EE/D");
+   shapes_  ->Branch("timeToRise_APD", &timeToRise_APD_, "timeToRise_APD/D");
+
+   shapes_  ->Branch("timeOfThr_EB",  &timeOfThr_EB_,  "timeOfThr_EB/D");
+   shapes_  ->Branch("timeOfThr_EE",  &timeOfThr_EE_,  "timeOfThr_EE/D");
+   shapes_  ->Branch("timeOfThr_APD", &timeOfThr_APD_, "timeOfThr_APD/D");
+
+   shapes_  ->Branch("timeOfMax_EB",  &timeOfMax_EB_,  "timeOfMax_EB/D");
+   shapes_  ->Branch("timeOfMax_EE",  &timeOfMax_EE_,  "timeOfMax_EE/D");
+   shapes_  ->Branch("timeOfMax_APD", &timeOfMax_APD_, "timeOfMax_APD/D");
+
+   shapes_  ->Branch("threshold_EB",  &threshold_EB_,  "threshold_EB/D");
+   shapes_  ->Branch("threshold_EE",  &threshold_EE_, " threshold_EE/D");
+   shapes_  ->Branch("threshold_APD", &threshold_APD_, "threshold_APD/D");
+
+
+   shapes_  ->Branch("shape_EB",  shape_EB_,  "shape_EB[10000]/D");
+   shapes_  ->Branch("shape_EE",  shape_EE_,  "shape_EE[10000]/D");
+   shapes_  ->Branch("shape_APD", shape_APD_, "shape_APD[10000]/D");
+   shapes_  ->Branch("time",      time_,      "time[10000]/D");
 }
 
 
@@ -155,6 +201,33 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         APDShapeDeriv_->SetBinContent(iSample, EcalAPDShape.derivative(tzeroAPD + float(iSample)) );
    }
 
+   timeToRise_EB_ = EcalEBShape.timeToRise();
+   timeToRise_EE_ = EcalEEShape.timeToRise();
+   timeToRise_APD_ = EcalAPDShape.timeToRise();
+
+   timeOfThr_EB_ = EcalEBShape.timeOfThr();
+   timeOfThr_EE_ = EcalEEShape.timeOfThr();
+   timeOfThr_APD_ = EcalAPDShape.timeOfThr();
+
+   timeOfMax_EB_ = EcalEBShape.timeOfMax();
+   timeOfMax_EE_ = EcalEEShape.timeOfMax();
+   timeOfMax_APD_ = EcalAPDShape.timeOfMax();
+
+   threshold_EB_ = EcalEBShape.threshold();
+   threshold_EE_ = EcalEEShape.threshold();
+   threshold_APD_ = EcalAPDShape.threshold();
+
+   for(int iTime=0; iTime<10000; iTime++)
+   {
+        double absTime = iTime*0.05;
+	time_[iTime] = absTime;
+        
+        shape_EB_[iTime]  = EcalEBShape(absTime);
+        shape_EE_[iTime]  = EcalEEShape(absTime);
+        shape_APD_[iTime] = EcalAPDShape(absTime);
+   }
+
+   shapes_->Fill();
 
 
 #ifdef THIS_IS_AN_EVENT_EXAMPLE
