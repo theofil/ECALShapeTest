@@ -43,6 +43,7 @@
 #include "TTree.h"
 #include "TH1F.h"
 
+using namespace std;
 //
 // class declaration
 //
@@ -176,18 +177,39 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
    double ADC_clock = 25.0; // 25 ns
 
-   EBShape EcalEBShape(iSetup);
+   cout << "creating EB shape" << endl; 
+   //EBShape EcalEBShape(iSetup);
+   EBShape EcalEBShape;
    double risingTimeEB = EcalEBShape.timeToRise();
    double tzeroEB = risingTimeEB  - 5*ADC_clock;  // 5 samples before the peak
+   cout << endl;
+   cout << endl;
+   cout << endl;
+   cout << endl;
+   cout << endl;
 
-   EEShape EcalEEShape(iSetup);
+   cout << "creating EE shape" << endl; 
+   //EEShape EcalEEShape(iSetup);
+   EEShape EcalEEShape;
    double risingTimeEE = EcalEEShape.timeToRise();
    double tzeroEE = risingTimeEE  - 5*ADC_clock;  
+   cout << endl;
+   cout << endl;
+   cout << endl;
+   cout << endl;
+   cout << endl;
 
+   cout << "creating EE shape" << endl; 
    //APDShape EcalAPDShape(74.5, 40.5, iSetup);
-   APDShape EcalAPDShape(iSetup);
+   APDShape EcalAPDShape(74.5, 40.5);
+   //APDShape EcalAPDShape(iSetup);
    double risingTimeAPD = EcalAPDShape.timeToRise();
    double tzeroAPD = risingTimeAPD - 5*ADC_clock;
+   cout << endl;
+   cout << endl;
+   cout << endl;
+   cout << endl;
+   cout << endl;
 
 
    for(int iSample=0; iSample<1000; iSample++)
