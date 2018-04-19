@@ -180,8 +180,10 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    cout << "creating EB shape" << endl; 
    //EBShape EcalEBShape(iSetup);
    EBShape EcalEBShape;
+   
    double risingTimeEB = EcalEBShape.timeToRise();
    double tzeroEB = risingTimeEB  - 5*ADC_clock;  // 5 samples before the peak
+   EcalEBShape.m_shape_print("EBShape.txt");
    cout << endl;
    cout << endl;
    cout << endl;
@@ -193,6 +195,7 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    EEShape EcalEEShape;
    double risingTimeEE = EcalEEShape.timeToRise();
    double tzeroEE = risingTimeEE  - 5*ADC_clock;  
+   EcalEEShape.m_shape_print("EEShape.txt");
    cout << endl;
    cout << endl;
    cout << endl;
@@ -205,6 +208,7 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    //APDShape EcalAPDShape(iSetup);
    double risingTimeAPD = EcalAPDShape.timeToRise();
    double tzeroAPD = risingTimeAPD - 5*ADC_clock;
+   EcalAPDShape.m_shape_print("APDShape.txt");
    cout << endl;
    cout << endl;
    cout << endl;
