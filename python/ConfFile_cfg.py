@@ -23,7 +23,8 @@ process.GlobalTag.globaltag = '94X_mc2017_realistic_v12'
 from CondCore.DBCommon.CondDBSetup_cfi import *
 process.ecalConditions = cms.ESSource("PoolDBESSource", CondDBSetup,
       #connect = cms.string('frontier://FrontierProd/CMS_COND_ECAL'),
-      connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/DB.db'),
+      #connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/DB.db'),
+      connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/simPulseShapePhaseI.db'),
       toGet = cms.VPSet(         # overide Global Tag use EcalTBWeights_EBEE_offline
                   cms.PSet(
                       record = cms.string('EcalSimPulseShapeRcd') ,
