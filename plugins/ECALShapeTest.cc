@@ -201,7 +201,7 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    cout << endl;
    cout << endl;
 
-   cout << "creating EE shape" << endl; 
+   cout << "creating APD shape" << endl; 
    //APDShape EcalAPDShape(74.5, 40.5);
    APDShape EcalAPDShape(iSetup);
    double risingTimeAPD = EcalAPDShape.timeToRise();
@@ -213,7 +213,7 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    cout << endl;
    cout << endl;
 
-
+   cout << __LINE__ << endl;
    for(int iSample=0; iSample<1000; iSample++)
    {
         EBShape_ ->SetBinContent(iSample, EcalEBShape (tzeroEB  + float(iSample)) );
