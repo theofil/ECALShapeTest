@@ -25,6 +25,7 @@ process.ecalConditions = cms.ESSource("PoolDBESSource", CondDBSetup,
       #connect = cms.string('frontier://FrontierProd/CMS_COND_ECAL'),
       #connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/DB.db'),
       connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/simPulseShapePhaseI.db'),
+      #connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/simPulseShapePhaseII.db'),
       toGet = cms.VPSet(         # overide Global Tag use EcalTBWeights_EBEE_offline
                   cms.PSet(
                       record = cms.string('EcalSimPulseShapeRcd') ,
