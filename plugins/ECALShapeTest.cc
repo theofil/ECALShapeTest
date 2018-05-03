@@ -94,10 +94,10 @@ class ECALShapeTest : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       double threshold_EE_;
       double threshold_APD_;
     
-      double shape_EB_[10000]; // save first 500 ns without any time shift with 0.05 ns 
-      double shape_EE_[10000];
-      double shape_APD_[10000];
-      double time_[10000];
+      double shape_EB_[500000]; // save first 500 ns without any time shift with 0.05 ns 
+      double shape_EE_[500000];
+      double shape_APD_[500000];
+      double time_[500000];
      
 };
 
@@ -147,10 +147,10 @@ ECALShapeTest::ECALShapeTest(const edm::ParameterSet& iConfig)
    shapes_  ->Branch("threshold_APD", &threshold_APD_, "threshold_APD/D");
 
 
-   shapes_  ->Branch("shape_EB",  shape_EB_,  "shape_EB[10000]/D");
-   shapes_  ->Branch("shape_EE",  shape_EE_,  "shape_EE[10000]/D");
-   shapes_  ->Branch("shape_APD", shape_APD_, "shape_APD[10000]/D");
-   shapes_  ->Branch("time",      time_,      "time[10000]/D");
+   shapes_  ->Branch("shape_EB",  shape_EB_,  "shape_EB[500000]/D");
+   shapes_  ->Branch("shape_EE",  shape_EE_,  "shape_EE[500000]/D");
+   shapes_  ->Branch("shape_APD", shape_APD_, "shape_APD[500000]/D");
+   shapes_  ->Branch("time",      time_,      "time[500000]/D");
 }
 
 
@@ -243,9 +243,9 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    threshold_EE_ = EcalEEShape.threshold();
    threshold_APD_ = EcalAPDShape.threshold();
 
-   for(int iTime=0; iTime<10000; iTime++)
+   for(int iTime=0; iTime<500000; iTime++)
    {
-        double absTime = iTime*0.05;
+        double absTime = iTime*0.001;
 	time_[iTime] = absTime;
         
         shape_EB_[iTime]  = EcalEBShape(absTime);
