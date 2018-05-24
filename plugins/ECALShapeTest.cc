@@ -97,6 +97,8 @@ class ECALShapeTest : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       double shape_EE_[500000];
       double shape_APD_[500000];
       double time_[500000];
+       
+      bool useDB_;
      
 };
 
@@ -115,6 +117,8 @@ ECALShapeTest::ECALShapeTest(const edm::ParameterSet& iConfig)
 {
    //now do what ever initialization is needed
    usesResource("TFileService");
+
+   useDB_ = iConfig.getParameter<bool>("useDB");
 
    int nBins   = 1000;
    float tMin  = 0;
@@ -175,9 +179,12 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    // ------------------------
 
    double ADC_clock = 25.0; // 25 ns
+   if(useDB_) cout <<"going to use DB" << endl;  
+   if(!useDB_) cout <<"NOT going to use DB" << endl;  
 
    cout << "creating EB shape" << endl; 
-   EBShape EcalEBShape(iSetup);
+   EBShape EcalEBShape(useDB_);
+   if(useDB_)EcalEBShape.setEventSetup(iSetup);
    //EBShape EcalEBShape;
    
    double risingTimeEB = EcalEBShape.timeToRise();
@@ -190,8 +197,8 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    cout << endl;
 
    cout << "creating EE shape" << endl; 
-   EEShape EcalEEShape(iSetup);
-   //EEShape EcalEEShape;
+   EEShape EcalEEShape(useDB_);
+   if(useDB_)EcalEEShape.setEventSetup(iSetup);
    double risingTimeEE = EcalEEShape.timeToRise();
    double tzeroEE = risingTimeEE  - 5*ADC_clock;  
    EcalEEShape.m_shape_print("EEShape.txt");
@@ -203,7 +210,8 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
    cout << "creating APD shape" << endl; 
    //APDShape EcalAPDShape(74.5, 40.5);
-   APDShape EcalAPDShape(iSetup);
+   APDShape EcalAPDShape(useDB_);
+   if(useDB_)EcalAPDShape.setEventSetup(iSetup);
    double risingTimeAPD = EcalAPDShape.timeToRise();
    double tzeroAPD = risingTimeAPD - 5*ADC_clock;
    EcalAPDShape.m_shape_print("APDShape.txt");

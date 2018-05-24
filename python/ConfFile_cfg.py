@@ -54,6 +54,6 @@ process.TFileService = cms.Service("TFileService",
 
 
 process.demo = cms.EDAnalyzer('ECALShapeTest')
-
+process.demo.useDB = cms.bool(True)
 
 process.p = cms.Path(process.demo)
