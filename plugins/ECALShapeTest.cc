@@ -182,46 +182,32 @@ ECALShapeTest::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
    if(useDB_) cout <<"going to use DB" << endl;  
    if(!useDB_) cout <<"NOT going to use DB" << endl;  
 
-   cout << "creating EB shape" << endl; 
    EBShape EcalEBShape(useDB_);
    if(useDB_)EcalEBShape.setEventSetup(iSetup);
-   //EBShape EcalEBShape;
-   
+
    double risingTimeEB = EcalEBShape.timeToRise();
    double tzeroEB = risingTimeEB  - 5*ADC_clock;  // 5 samples before the peak
    EcalEBShape.m_shape_print("EBShape.txt");
    cout << endl;
-   cout << endl;
-   cout << endl;
-   cout << endl;
-   cout << endl;
 
    cout << "creating EE shape" << endl; 
    EEShape EcalEEShape(useDB_);
+
    if(useDB_)EcalEEShape.setEventSetup(iSetup);
    double risingTimeEE = EcalEEShape.timeToRise();
    double tzeroEE = risingTimeEE  - 5*ADC_clock;  
    EcalEEShape.m_shape_print("EEShape.txt");
    cout << endl;
-   cout << endl;
-   cout << endl;
-   cout << endl;
-   cout << endl;
 
    cout << "creating APD shape" << endl; 
-   //APDShape EcalAPDShape(74.5, 40.5);
    APDShape EcalAPDShape(useDB_);
    if(useDB_)EcalAPDShape.setEventSetup(iSetup);
+
    double risingTimeAPD = EcalAPDShape.timeToRise();
    double tzeroAPD = risingTimeAPD - 5*ADC_clock;
    EcalAPDShape.m_shape_print("APDShape.txt");
    cout << endl;
-   cout << endl;
-   cout << endl;
-   cout << endl;
-   cout << endl;
 
-   cout << __LINE__ << endl;
    for(int iSample=0; iSample<1000; iSample++)
    {
         EBShape_ ->SetBinContent(iSample, EcalEBShape (tzeroEB  + float(iSample)) );
