@@ -5,8 +5,8 @@ process = cms.Process("Demo")
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1) )
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-process.GlobalTag.globaltag = '94X_mc2017_realistic_v12'
+#process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+#process.GlobalTag.globaltag = '94X_mc2017_realistic_v12'
 
 
 
@@ -16,18 +16,17 @@ process.GlobalTag.globaltag = '94X_mc2017_realistic_v12'
 from CondCore.CondDB.CondDB_cfi import *
 process.ecalConditions = cms.ESSource("PoolDBESSource",
       connect = cms.string('frontier://FrontierProd/CMS_COND_ECAL'),
-      #connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/simPulseShapePhaseI.db'),
+     # connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/simPulseShapePhaseI.db'),
       #connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/simPulseShapePhaseII.db'),
-      toGet = cms.VPSet(         # overide Global Tag use EcalTBWeights_EBEE_offline
+      toGet = cms.VPSet(         
                   cms.PSet(
-                      #record = cms.string('EcalSimPulseShapeRcd') ,
                       record = cms.string('EcalSimPulseShapeRcd') ,
-                      #tag = cms.string('EcalSimPulseShape_default_mc')
-                      tag = cms.string('simPulseShapePhaseI')
+                      tag = cms.string('EcalSimPulseShape_default_mc')
+                      #tag = cms.string('simPulseShapePhaseI')
                   ),
               )
 )
-process.es_prefer_EcalTBWeights = cms.ESPrefer("PoolDBESSource","ecalConditions")
+#process.es_prefer_ecalConditions = cms.ESPrefer("PoolDBESSource","ecalConditions")
 #############################################################################################
 
 
