@@ -15,7 +15,8 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1) )
 ##########
 from CondCore.CondDB.CondDB_cfi import *
 process.ecalConditions = cms.ESSource("PoolDBESSource",
-      connect = cms.string('frontier://FrontierProd/CMS_COND_ECAL'),
+      #connect = cms.string('frontier://FrontierProd/CMS_COND_ECAL'), # don't use this
+      connect = cms.string('frontier://FrontierPrep/CMS_COND_ECAL'),
      # connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/simPulseShapePhaseI.db'),
       #connect = cms.string('sqlite_file:../../../CondTools/Ecal/python/simPulseShapePhaseII.db'),
       toGet = cms.VPSet(         
