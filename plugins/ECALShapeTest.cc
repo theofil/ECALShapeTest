@@ -43,6 +43,7 @@
 #include "TTree.h"
 #include "TH1F.h"
 
+using namespace std;
 //
 // class declaration
 //
